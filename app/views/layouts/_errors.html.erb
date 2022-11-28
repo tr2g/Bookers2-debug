@@ -1,0 +1,10 @@
+<% if book.errors.any? %>
+  <div id="error_explanation">
+    <h3><%= book.errors.count %> errors.</h3>
+    <ul>
+      <% book.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
