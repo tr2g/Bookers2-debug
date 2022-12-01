@@ -15,6 +15,11 @@
             <%= @book.user.name %>
             <% end %>
           </td>
+          <!--編集・削除-->
+          <td><%= link_to @book.title, @book %></td>
+          <td><%= @book.body %></td>
+            <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
+            <td><%= link_to 'Destroy', book_path(@book), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
           <!--いいね機能-->
           <td>
           <% if @book.favorited_by?(current_user) %>
@@ -31,25 +36,27 @@
           </p>
           <% end %>
           </td>
-          <!--編集・削除-->
-          <td><%= link_to @book.title, @book %></td>
-          <td><%= @book.body %></td>
-            <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
-            <td><%= link_to 'Destroy', book_path(@book), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
           <!--コメント機能-->
           <td><p>コメント数:<%= @book.book_comments.count %></p>
-            <% @book.book_comments.each do |book_comment| %>
-              <p><%= image_tag book_comment.user.get_profile_image, size:"100x100" %></p>
-              <%= book_comment.user.name %>
-              <%= book_comment.created_at.strftime('%Y/%m/%d') %><%= book_comment.comment %>
+          </td>
+          </tr>
+          <tr style="border:none;">
+            <td style="border:none;">
+                <% @book.book_comments.each do |book_comment| %>
+                <p><%= image_tag book_comment.user.get_profile_image, size:"100x100" %></p>
+                <%= book_comment.user.name %>
+                <%= book_comment.created_at.strftime('%Y/%m/%d') %><%= book_comment.comment %>
+                <% if book_comment.user == current_user %>
+                  <%= link_to "Delete", book_book_comment_path(book_comment.book, book_comment), method: :delete, class: "btn btn-sm btn-danger" %>
+                <% end %>
               <% end %>
-            <%= form_with model: [@book, @book_comment] do |f| %>
-              <%= f.text_area :comment, rows: '5', placeholder: "Comment Text" %>
-              <%= f.submit "Create Comment" %>
-            <% end %>
+              <%= form_with model: [@book, @book_comment] do |f| %>
+                <%= f.text_area :comment, rows: '5', placeholder: "Comment Text" %>
+                <%= f.submit "Create Comment", class: "btn btn-sm btn-success" %>
+              <% end %>
             </td>
           </tr>
-      </table>
+        </table>
     </div>
   </div>
 </div>
