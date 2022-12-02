@@ -9,6 +9,9 @@ class UsersController < ApplicationController
   end
 
   def index
+    unless self == current_user then
+      self.relationships.find_or_create_by(followed_id: user_id.to_i, follower_id: self.id)
+    end
     @users = User.all
     @books = Book.all
     @user = current_user
