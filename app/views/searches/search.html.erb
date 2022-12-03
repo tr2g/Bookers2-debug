@@ -1,0 +1,52 @@
+<h2>Search result</h2>
+
+<table class="table table-hover table-inverse">
+  <% if @range == "User" %> <!--検索するモデルがUserのとき-->
+  <thead>
+    <tr>
+      <th>image</th>
+      <th>name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+    <tbody>
+      <% @users.each do |user| %>
+      <tr>
+        <td><%= image_tag user.get_profile_image, size: '50x50' %></td>
+        <td><%= user.name %></td>
+        <td>フォロー数:<%= user.followings.count %></td>
+        <td>フォロワー数:<%= user.followers.count %></td>
+        <td>
+        <% unless user == current_user %>
+          <% if current_user.following?(user) %>
+            <%= link_to "フォローを外す",user_relationships_path(user.id),method: :delete %>
+          <% else %>
+            <%= link_to "フォローする", user_relationships_path(user.id),method: :post %>
+          <% end %>
+        <% end %>
+      <% end %>
+        </td>
+      </tr>
+    </tbody>
+  <% else %> <!--検索するモデルがUserじゃない(= 検索するモデルがBook)のとき-->
+    <thead>
+    <tr>
+      <th></th>
+      <th>Title</th>
+      <th>Opinion</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @books.each do |book| %>
+     <tr>
+        <td><%= link_to(book.user) do %>
+          <%= image_tag book.user.get_profile_image, size:'50x50' %>
+          <% end %>
+        </td>
+        <td><%= link_to book.title,book %></td>
+        <td><%= book.body %></td>
+    <% end %>
+  </tbody>
+  <% end %>
+</table>
