@@ -9,31 +9,31 @@
     <div class='col-md-8 offset-md-1'>
   		<h2>Book detail</h2>
   		<table class='table'>
-  		  <tr>
-          <td><%= link_to(@book.user) do %>
-            <%= image_tag @book.user.get_profile_image, size:"100x100" %><br>
-            <%= @book.user.name %>
-            <% end %>
-          </td>
-          <!--編集・削除-->
-          <td><%= link_to @book.title, @book %></td>
-          <td><%= @book.body %></td>
-            <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
-            <td><%= link_to 'Destroy', book_path(@book), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
-          <!--いいね機能-->
-          <td>
-            <div class="favorite-btn_<%= @book.id %>">
-              <%= render 'favorites/favorite-btn',book: @book %>
-            </div>
-          </td>
-          <!--コメント機能-->
+  		    <tr>
+            <td><%= link_to(@book.user) do %>
+              <%= image_tag @book.user.get_profile_image, size:"100x100" %><br>
+              <%= @book.user.name %>
+              <% end %>
+            </td>
+            <!--編集・削除-->
+            <td><%= link_to @book.title, @book %></td>
+            <td><%= @book.body %></td>
+              <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
+              <td><%= link_to 'Destroy', book_path(@book), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
+            <!--いいね機能-->
             <td>
-            <div class="new-comment">
-              <%= render 'book_comments/form', book: @book, book_comment: @book_comment %>
-            </div>
+              <div class="favorite-btn_<%= @book.id %>">
+                <%= render 'favorites/favorite-btn',book: @book %>
+              </div>
             </td>
           </tr>
+
         </table>
+        <!--コメント機能-->
+          コメント数:<%= @book.book_comments.count %>
+              <div class="form">
+                <%= render 'book_comments/form', book: @book, book_comment: @book_comment %>
+              </div>
     </div>
   </div>
 </div>
